@@ -1,9 +1,15 @@
-const mainCharacter = {
-  position: { x: 40, y: 240 },
-  width: 20,
-  height: 140,
-  speed: 0,
-  rect: function () {
+class Rectangle {
+  constructor(x, y, width, height) {
+    this.position = {};
+    this.position.x = x;
+    this.position.y = y;
+    this.width = width;
+    this.height = height;
+  };
+
+  rect() {
     rect(this.position.x, this.position.y, this.width, this.height);
   }
-};
+}
+
+const mainCharacter = new Rectangle(40, 240, 20, 140);
