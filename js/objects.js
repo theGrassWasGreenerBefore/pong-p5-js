@@ -1,15 +1,15 @@
+const SCENE_WIDTH = 640;
+const SCENE_HEIGHT = 480;
+
 class Rectangle {
-  constructor(x, y, width, height) {
-    this.position = {};
-    this.position.x = x;
-    this.position.y = y;
-    this.width = width;
-    this.height = height;
+  constructor(position = { x: 0, y: 0 }, size = { width: 0, height: 0 }) {
+    this.position = position;
+    this.size = size;
   };
 
   rect() {
-    rect(this.position.x, this.position.y, this.width, this.height);
+    rect(this.position.x, this.position.y, this.size.width, this.size.height);
   }
 }
 
-const mainCharacter = new Rectangle(40, 240, 20, 140);
+const mainCharacter = new Rectangle({ x: 40, y: 240 }, { width: 20, height: 140 });
