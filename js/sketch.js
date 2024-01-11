@@ -7,5 +7,6 @@ function draw() {
   noStroke();
   background(0);
   fill(255);
-  mainCharacter.rect();
+
+  rect(...mainCharacter.mount());
 }

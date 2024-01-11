@@ -7,9 +7,16 @@ class Rectangle {
     this.size = size;
   };
 
-  rect() {
-    rect(this.position.x, this.position.y, this.size.width, this.size.height);
+  mount() {
+    const { position, size } = this;
+    const { x, y } = position;
+    const { width, height } = size;
+
+    return [x, y, width, height];
   }
 }
 
-const mainCharacter = new Rectangle({ x: 40, y: 240 }, { width: 20, height: 140 });
+const mainCharacter = new Rectangle(
+  { x: 40, y: 240 },
+  { width: 20, height: 140 }
+);
