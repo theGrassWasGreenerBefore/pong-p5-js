@@ -1,6 +1,9 @@
 const SCENE_WIDTH = 640;
 const SCENE_HEIGHT = 480;
 
+const centerX = SCENE_WIDTH / 2;
+const centerY = SCENE_HEIGHT / 2;
+
 const CHARACTER_SHIFT = 3;
 
 const applyVector = (character) => {
@@ -43,6 +46,12 @@ class Character extends Rectangle {
 };
 
 const mainCharacter = new Character(
-  { x: 40, y: 240 },
+  { x: 40, y: centerY },
   { width: 20, height: 140 }
+);
+
+const ball = new Rectangle(
+  { x: centerX, y: centerY },
+  { width: 20, height: 20 },
+  { x: -3, y: 0 },
 );

@@ -8,5 +8,6 @@ function draw() {
   background(0);
   fill(255);
 
+  rect(...ball.mount());
   rect(...mainCharacter.mount());
 }
