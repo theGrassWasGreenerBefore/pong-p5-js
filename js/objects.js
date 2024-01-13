@@ -5,31 +5,27 @@ const centerX = SCENE_WIDTH / 2;
 const centerY = SCENE_HEIGHT / 2;
 
 const CHARACTER_SHIFT = 3;
+const BALL_SHIFT = 3;
 
-const applyVector = (character) => {
-  const { position, vector } = character;
-  const { x: positionX, y: positionY } = position;
-  const { x: vectorX, y: vectorY } = vector;
-
-  const x = positionX + vectorX;
-  const y = positionY + vectorY;
-
-  character.position = { x, y };
-}
+const getAxisOverlap = (coord1, coord2, size1, size2) => {
+  const currentDistance = Math.abs(coord1 - coord2);
+  const minimumSafeDistance = (size1 + size2) / 2;
+  return currentDistance < minimumSafeDistance;
+};
 
 class Rectangle {
   constructor(
-    position = { x: 0, y: 0 },
-    size = { width: 0, height: 0 },
-    vector = { x: 0, y: 0 }
+    position = [0, 0],
+    sizeCaret = [0, 0],
+    velocity = [0, 0],
   ) {
-    this.position = position;
-    this.size = size;
-    this.vector = vector;
+    this.position = this.createVector(...position);
+    this.size = { width: sizeCaret[0], height: sizeCaret[1] };
+    this.velocity = this.createVector(...velocity);
   };
 
   mount() {
-    applyVector(this);
+    this.position.add(this.velocity);
 
     const { position, size } = this;
     const { x, y } = position;
@@ -41,17 +37,28 @@ class Rectangle {
 
 class Character extends Rectangle {
   verticalShift(yDirection) {
-    this.vector = { x: 0, y: yDirection * CHARACTER_SHIFT };
+    this.velocity = this.createVector(0, yDirection * CHARACTER_SHIFT);
   }
 };
 
-const mainCharacter = new Character(
-  { x: 40, y: centerY },
-  { width: 20, height: 140 }
-);
+class Ball extends Rectangle {
+  hitTest(characters) {
+    characters.forEach(otherCharacter => {
+      const {
+        position: { x: x1, y: y1 },
+        size: { width: width1, height: height1 },
+      } = this;
+      const {
+        position: { x: x2, y: y2 },
+        size: { width: width2, height: height2 },
+      } = otherCharacter;
 
-const ball = new Rectangle(
-  { x: centerX, y: centerY },
-  { width: 20, height: 20 },
-  { x: -3, y: 0 },
-);
+      const isOverlapX = getAxisOverlap(x1, x2, width1, width2);
+      const isOverlapY = getAxisOverlap(y1, y2, height1, height2);
+
+      if (isOverlapX && isOverlapY) {
+        console.log("Hit test!");
+      }
+    });
+  }
+};
