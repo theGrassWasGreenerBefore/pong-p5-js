@@ -42,6 +42,20 @@ class Character extends Rectangle {
 };
 
 class Ball extends Rectangle {
+  ballHit(otherCharacter) {
+    const {
+      position: { x: x1, y: y1 },
+      velocity: ballVelocity,
+    } = this;
+    const {
+      position: { x: x2, y: y2 },
+      size: { height }
+    } = otherCharacter;
+
+    const hitDirection = this.createVector(x1 - x2, y1 - y2);
+    this.velocity = hitDirection.normalize().mult(ballVelocity.mag());
+  }
+
   hitTest(characters) {
     characters.forEach(otherCharacter => {
       const {
@@ -57,7 +71,7 @@ class Ball extends Rectangle {
       const isOverlapY = getAxisOverlap(y1, y2, height1, height2);
 
       if (isOverlapX && isOverlapY) {
-        console.log("Hit test!");
+        this.ballHit(otherCharacter);
       }
     });
   }
