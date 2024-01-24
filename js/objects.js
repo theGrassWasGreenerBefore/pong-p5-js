@@ -4,8 +4,8 @@ const SCENE_HEIGHT = 480;
 const centerX = SCENE_WIDTH / 2;
 const centerY = SCENE_HEIGHT / 2;
 
-const CHARACTER_SHIFT = 3;
-const BALL_SHIFT = 3;
+const CHARACTER_SHIFT = 4.5;
+const BALL_SHIFT = 4;
 
 const getAxisOverlap = (coord1, coord2, size1, size2) => {
   const currentDistance = Math.abs(coord1 - coord2);
@@ -37,7 +37,24 @@ class Rectangle {
 
 class Character extends Rectangle {
   verticalShift(yDirection) {
-    this.velocity = this.createVector(0, yDirection * CHARACTER_SHIFT);
+    this.velocity.y = yDirection * CHARACTER_SHIFT;
+  }
+
+  hitFrameTest() {
+    const { position: { y } } = this;
+    const { velocity: { y: velocityY } } = this;
+    const { size: { height } } = this;
+
+    const topLimit = height / 2;
+    const bottomLimit = SCENE_HEIGHT - height / 2;
+
+    const isHigherThanTop = (velocityY < 0) && (y <= topLimit);
+    const isLowerThanBottom = (velocityY > 0) && (y >= bottomLimit);
+
+    if (isHigherThanTop || isLowerThanBottom) {
+      this.velocity.y = 0;
+      this.position.y = isHigherThanTop ? topLimit : bottomLimit;
+    }
   }
 };
 

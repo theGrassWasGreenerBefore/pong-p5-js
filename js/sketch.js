@@ -23,6 +23,7 @@ function draw() {
   rect(...ball.mount());
   rect(...mainCharacter.mount());
 
+  mainCharacter.hitFrameTest();
   ball.hitTest([mainCharacter]);
   ball.hitFrameTest();
 }
