@@ -24,4 +24,5 @@ function draw() {
   rect(...mainCharacter.mount());
 
   ball.hitTest([mainCharacter]);
+  ball.hitFrameTest();
 }

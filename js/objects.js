@@ -75,4 +75,24 @@ class Ball extends Rectangle {
       }
     });
   }
+
+  hitFrameTest() {
+    const {
+      position: { x, y },
+      size: { width, height },
+    } = this;
+
+    if (this.position.x < width / 2) {
+      // TODO: score Left
+    }
+    if (this.position.x > SCENE_WIDTH - width / 2) {
+      // TODO: score Right
+    }
+    if ((this.position.y < height / 2) && (this.velocity.y < 0)) {
+      this.velocity.y *= -1;
+    }
+    if ((this.position.y > SCENE_HEIGHT - height / 2) && (this.velocity.y > 0)) {
+      this.velocity.y *= -1;
+    }
+  }
 };
