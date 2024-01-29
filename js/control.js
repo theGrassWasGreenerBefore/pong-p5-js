@@ -1,32 +1,33 @@
-const keysPressed = new Set();
+const calcVerticalShift = (character) => {
+  const isUpPressed = controlsPressed.has(`${character}|${CONTROL_KEYS.UP}`);
+  const isDownPressed = controlsPressed.has(`${character}|${CONTROL_KEYS.DOWN}`);
 
-const calcVerticalShift = () => {
   if (
-    keysPressed.has(UP_ARROW) && keysPressed.has(DOWN_ARROW) ||
-    !keysPressed.has(UP_ARROW) && !keysPressed.has(DOWN_ARROW)
+    isUpPressed && isDownPressed ||
+    !isUpPressed && !isDownPressed
   ) {
     return 0;
   }
-  if (keysPressed.has(UP_ARROW)) {
+  if (isUpPressed) {
     return -1;
   }
   return 1;
 }
 
-function keyPressed() {
-  if ((keyCode === UP_ARROW) || (keyCode === DOWN_ARROW)) {
-    if (!keysPressed.has(keyCode)) {
-      keysPressed.add(keyCode);
+const keyStateChange = (setMethod) => {
+  Object.keys(controlSettings).forEach(character => {
+    const keys = controlSettings[character].keys;
+    if (Object.keys(keys).includes(key)) {
+      controlsPressed[setMethod](`${character}|${keys[key]}`);
+      window[character].verticalShift(calcVerticalShift(character)); // TODO: refactor - no window
     }
+  });
+}
 
-    mainCharacter.verticalShift(calcVerticalShift());
-  }
+function keyPressed() {
+  keyStateChange("add");
 }
 
 function keyReleased() {
-
-  if ((keyCode === UP_ARROW) || (keyCode === DOWN_ARROW)) {
-    keysPressed.delete(keyCode);
-    mainCharacter.verticalShift(calcVerticalShift());
-  }
+  keyStateChange("delete");
 }

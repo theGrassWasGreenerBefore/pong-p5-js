@@ -1,12 +1,3 @@
-const SCENE_WIDTH = 640;
-const SCENE_HEIGHT = 480;
-
-const centerX = SCENE_WIDTH / 2;
-const centerY = SCENE_HEIGHT / 2;
-
-const CHARACTER_SHIFT = 4.5;
-const BALL_SHIFT = 4;
-
 const getAxisOverlap = (coord1, coord2, size1, size2) => {
   const currentDistance = Math.abs(coord1 - coord2);
   const minimumSafeDistance = (size1 + size2) / 2;
