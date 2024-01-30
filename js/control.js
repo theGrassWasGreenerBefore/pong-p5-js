@@ -1,6 +1,6 @@
-const calcVerticalShift = (character) => {
-  const isUpPressed = controlsPressed.has(`${character}|${CONTROL_KEYS.UP}`);
-  const isDownPressed = controlsPressed.has(`${character}|${CONTROL_KEYS.DOWN}`);
+const calcVerticalShift = (playerName) => {
+  const isUpPressed = controlsPressed.has(`${playerName}|${CONTROL_KEYS.UP}`);
+  const isDownPressed = controlsPressed.has(`${playerName}|${CONTROL_KEYS.DOWN}`);
 
   if (
     isUpPressed && isDownPressed ||
@@ -15,11 +15,11 @@ const calcVerticalShift = (character) => {
 }
 
 const keyStateChange = (setMethod) => {
-  Object.keys(controlSettings).forEach(character => {
-    const keys = controlSettings[character].keys;
+  players.forEach(player => {
+    const { keys } = keySets.find(({ id }) => id === player.controlOption);
     if (Object.keys(keys).includes(key)) {
-      controlsPressed[setMethod](`${character}|${keys[key]}`);
-      window[character].verticalShift(calcVerticalShift(character)); // TODO: refactor - no window
+      controlsPressed[setMethod](`${player.name}|${keys[key]}`);
+      player.verticalShift(calcVerticalShift(player.name));
     }
   });
 }

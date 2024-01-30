@@ -8,11 +8,10 @@ class Rectangle {
   constructor(
     position = [0, 0],
     sizeCaret = [0, 0],
-    velocity = [0, 0],
   ) {
     this.position = this.createVector(...position);
     this.size = { width: sizeCaret[0], height: sizeCaret[1] };
-    this.velocity = this.createVector(...velocity);
+    this.velocity = this.createVector(0, 0);
   };
 
   mount() {
@@ -27,6 +26,16 @@ class Rectangle {
 };
 
 class Character extends Rectangle {
+  constructor(
+    position,
+    sizeCaret,
+    name = "",
+    controlOption = CONTROL_OPTIONS.WS,
+  ) {
+    super(position, sizeCaret);
+    this.controlOption = controlOption;
+  }
+
   verticalShift(yDirection) {
     this.velocity.y = yDirection * CHARACTER_SHIFT;
   }
@@ -50,6 +59,14 @@ class Character extends Rectangle {
 };
 
 class Ball extends Rectangle {
+  constructor(
+    position,
+    sizeCaret,
+    velocity = [0, 0],
+  ) {
+    super(position, sizeCaret);
+    this.velocity = this.createVector(...velocity);
+  }
   ballHit(otherCharacter) {
     const {
       position: { x: x1, y: y1 },

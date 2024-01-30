@@ -1,10 +1,13 @@
 function setup() {
   Rectangle.prototype.createVector = createVector;
 
-  mainCharacter = new Character(
+  const mainCharacter = new Character(
     [40, centerY],
     [20, 140],
+    "mainCharacter",
   );
+  players.push(mainCharacter);
+
   ball = new Ball(
     [centerX, centerY],
     [20, 20],
@@ -21,9 +24,11 @@ function draw() {
   fill(255);
 
   rect(...ball.mount());
-  rect(...mainCharacter.mount());
+  players.forEach(player => {
+    rect(...player.mount());
+    player.hitFrameTest();
+  });
 
-  mainCharacter.hitFrameTest();
-  ball.hitTest([mainCharacter]);
+  ball.hitTest(players);
   ball.hitFrameTest();
 }

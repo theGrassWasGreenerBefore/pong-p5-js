@@ -34,8 +34,6 @@ const keySets = [
   },
 ];
 
-let controlSettings = {
-  mainCharacter: keySets.find(({ id }) => id === CONTROL_OPTIONS.WS),
-};
+const players = [];
 
 let controlsPressed = new Set();
