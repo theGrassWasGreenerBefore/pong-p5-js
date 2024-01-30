@@ -12,7 +12,7 @@ const calcVerticalShift = (playerName) => {
     return -1;
   }
   return 1;
-}
+};
 
 const keyStateChange = (setMethod) => {
   players.forEach(player => {
@@ -22,7 +22,7 @@ const keyStateChange = (setMethod) => {
       player.verticalShift(calcVerticalShift(player.name));
     }
   });
-}
+};
 
 function keyPressed() {
   keyStateChange("add");

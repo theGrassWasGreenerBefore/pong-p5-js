@@ -1,12 +1,20 @@
 function setup() {
   Rectangle.prototype.createVector = createVector;
 
-  const mainCharacter = new Character(
-    [40, centerY],
-    [20, 140],
-    "mainCharacter",
+  players.push(
+    new Character(
+      [40, centerY],
+      [20, 140],
+      "player1",
+      CONTROL_OPTIONS.WS,
+    ),
+    new Character(
+      [600, centerY],
+      [20, 140],
+      "player2",
+      CONTROL_OPTIONS.ARROW_KEYS,
+    ),
   );
-  players.push(mainCharacter);
 
   ball = new Ball(
     [centerX, centerY],
