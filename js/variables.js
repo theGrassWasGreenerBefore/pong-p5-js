@@ -5,11 +5,13 @@ const centerX = SCENE_WIDTH / 2;
 const centerY = SCENE_HEIGHT / 2;
 
 const CHARACTER_SHIFT = 4.5;
+const MOUSE_WHEEL_SHIFT = 3;
 const BALL_SHIFT = 4;
 
 const CONTROL_OPTIONS = {
   WS: "W+S",
   ARROW_KEYS: "Arrows UP+DOWN",
+  MOUSE_WHEEL: "Mouse wheel",
 };
 
 const CONTROL_KEYS = {

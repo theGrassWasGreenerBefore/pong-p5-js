@@ -33,6 +33,7 @@ class Character extends Rectangle {
     controlOption = CONTROL_OPTIONS.WS,
   ) {
     super(position, sizeCaret);
+    this.name = name;
     this.controlOption = controlOption;
   }
 
@@ -48,13 +49,22 @@ class Character extends Rectangle {
     const topLimit = height / 2;
     const bottomLimit = SCENE_HEIGHT - height / 2;
 
-    const isHigherThanTop = (velocityY < 0) && (y <= topLimit);
-    const isLowerThanBottom = (velocityY > 0) && (y >= bottomLimit);
+    const isHigherThanTop = (velocityY <= 0) && (y <= topLimit);
+    const isLowerThanBottom = (velocityY >= 0) && (y >= bottomLimit);
 
     if (isHigherThanTop || isLowerThanBottom) {
       this.velocity.y = 0;
       this.position.y = isHigherThanTop ? topLimit : bottomLimit;
     }
+  }
+
+  mount() {
+    if (this.controlOption === CONTROL_OPTIONS.MOUSE_WHEEL) {
+      const resultMount = super.mount();
+      this.velocity.y = 0;
+      return resultMount;
+    }
+    return super.mount();
   }
 };
 

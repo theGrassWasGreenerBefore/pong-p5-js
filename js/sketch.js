@@ -6,7 +6,7 @@ function setup() {
       [40, centerY],
       [20, 140],
       "player1",
-      CONTROL_OPTIONS.WS,
+      CONTROL_OPTIONS.MOUSE_WHEEL,
     ),
     new Character(
       [600, centerY],

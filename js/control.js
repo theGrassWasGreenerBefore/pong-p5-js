@@ -16,7 +16,7 @@ const calcVerticalShift = (playerName) => {
 
 const keyStateChange = (setMethod) => {
   players.forEach(player => {
-    const { keys } = keySets.find(({ id }) => id === player.controlOption);
+    const keys = keySets.find(({ id }) => id === player.controlOption) ?.keys ?? {};
     if (Object.keys(keys).includes(key)) {
       controlsPressed[setMethod](`${player.name}|${keys[key]}`);
       player.verticalShift(calcVerticalShift(player.name));
@@ -30,4 +30,13 @@ function keyPressed() {
 
 function keyReleased() {
   keyStateChange("delete");
+}
+
+function mouseWheel({ delta }) {
+  players.forEach(player => {
+    if (player.controlOption === CONTROL_OPTIONS.MOUSE_WHEEL) {
+      player.verticalShift(Math.sign(delta) * MOUSE_WHEEL_SHIFT);
+    }
+  });
+  return false;
 }
