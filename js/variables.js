@@ -1,12 +1,17 @@
-const SCENE_WIDTH = 640;
-const SCENE_HEIGHT = 480;
+const SCENE_WIDTH = 1200;
+const SCENE_HEIGHT = 900;
 
 const centerX = SCENE_WIDTH / 2;
 const centerY = SCENE_HEIGHT / 2;
 
-const CHARACTER_SHIFT = 4.5;
-const MOUSE_WHEEL_SHIFT = 3;
-const BALL_SHIFT = 4;
+const KEYBOARD_SHIFT = 10;
+const MOUSE_WHEEL_SHIFT = 4;
+const BALL_SHIFT = 6;
+
+const PLAYER_X_OFFSET = 120;
+const PLAYER_SIZE = [14, 60];
+const BALL_SIZE = [18, 18];
+const NET_DASH = [15, 25];
 
 const CONTROL_OPTIONS = {
   WS: "W+S",

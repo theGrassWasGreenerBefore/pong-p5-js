@@ -3,22 +3,22 @@ function setup() {
 
   players.push(
     new Character(
-      [40, centerY],
-      [20, 140],
+      [PLAYER_X_OFFSET, centerY],
+      PLAYER_SIZE,
       "player1",
-      CONTROL_OPTIONS.MOUSE_WHEEL,
+      CONTROL_OPTIONS.WS,
     ),
     new Character(
-      [600, centerY],
-      [20, 140],
+      [SCENE_WIDTH - PLAYER_X_OFFSET, centerY],
+      PLAYER_SIZE,
       "player2",
-      CONTROL_OPTIONS.ARROW_KEYS,
+      CONTROL_OPTIONS.MOUSE_WHEEL,
     ),
   );
 
   ball = new Ball(
     [centerX, centerY],
-    [20, 20],
+    BALL_SIZE,
     [BALL_SHIFT * (-1), 0],
   );
 
@@ -27,8 +27,17 @@ function setup() {
 
 function draw() {
   rectMode(CENTER);
-  noStroke();
   background(0);
+
+  // net
+  stroke(255);
+  strokeWeight(4);
+  noFill();
+  drawingContext.setLineDash(NET_DASH);
+  line(SCENE_WIDTH / 2, 0, SCENE_WIDTH / 2, SCENE_HEIGHT);
+
+  // moving objects
+  noStroke();
   fill(255);
 
   rect(...ball.mount());

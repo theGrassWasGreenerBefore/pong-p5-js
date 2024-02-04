@@ -38,7 +38,7 @@ class Character extends Rectangle {
   }
 
   verticalShift(yDirection) {
-    this.velocity.y = yDirection * CHARACTER_SHIFT;
+    this.velocity.y = yDirection * KEYBOARD_SHIFT;
   }
 
   hitFrameTest() {
