@@ -8,10 +8,26 @@ const KEYBOARD_SHIFT = 10;
 const MOUSE_WHEEL_SHIFT = 4;
 const BALL_SHIFT = 6;
 
+const NET_DASH = [15, 25];
 const PLAYER_X_OFFSET = 120;
 const PLAYER_SIZE = [14, 60];
 const BALL_SIZE = [18, 18];
-const NET_DASH = [15, 25];
+const BALL_START_VELOCITY = [5, 10];
+
+const generateServeCoordinates = () => {
+  const xDirection = Math.sign(Math.random() - 0.5);
+  const yDirection = Math.sign(Math.random() - 0.5);
+
+  const xVelocity = BALL_START_VELOCITY[0] * xDirection;
+  const yVelocity = BALL_START_VELOCITY[1] * yDirection;
+
+  const yPosition = Math.random() * (SCENE_HEIGHT - BALL_SIZE[1]) - BALL_SIZE[1];
+  return [
+    [centerX, yPosition],
+    BALL_SIZE,
+    [xVelocity, yVelocity],
+  ];
+}
 
 const CONTROL_OPTIONS = {
   WS: "W+S",

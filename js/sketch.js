@@ -17,9 +17,7 @@ function setup() {
   );
 
   ball = new Ball(
-    [centerX, centerY],
-    BALL_SIZE,
-    [BALL_SHIFT * (-1), 0],
+    ...generateServeCoordinates(),
   );
 
   createCanvas(SCENE_WIDTH, SCENE_HEIGHT);
