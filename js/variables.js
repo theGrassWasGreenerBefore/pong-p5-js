@@ -14,6 +14,11 @@ const PLAYER_SIZE = [14, 60];
 const BALL_SIZE = [18, 18];
 const BALL_START_VELOCITY = [5, 10];
 
+const TEXT_SIZE = 130;
+const TEXT_TOP = 85;
+const TEXT_LEFT_1 = 430;
+const TEXT_LEFT_2 = 1030;
+
 const generateServeCoordinates = () => {
   const xDirection = Math.sign(Math.random() - 0.5);
   const yDirection = Math.sign(Math.random() - 0.5);
@@ -58,5 +63,6 @@ const keySets = [
 ];
 
 const players = [];
+const score = [0, 0];
 
 let controlsPressed = new Set();

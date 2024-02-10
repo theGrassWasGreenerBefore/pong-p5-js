@@ -27,6 +27,13 @@ function draw() {
   rectMode(CENTER);
   background(0);
 
+  // score
+  textFont("Pong Score"); // TODO: fetch font in preload when moved to modules
+  textSize(TEXT_SIZE);
+  textAlign(RIGHT, TOP);
+  text(score[0], TEXT_LEFT_1, TEXT_TOP);
+  text(score[1], TEXT_LEFT_2, TEXT_TOP);
+
   // net
   stroke(255);
   strokeWeight(4);
