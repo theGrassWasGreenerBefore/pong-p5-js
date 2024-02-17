@@ -1,6 +1,10 @@
 const SCENE_WIDTH = 1200;
 const SCENE_HEIGHT = 900;
 
+const FRAME_RATE = 60;
+const SECONDS_PAUSE = 2;
+const PAUSE_INITIAL_VALUE = FRAME_RATE * SECONDS_PAUSE;
+
 const centerX = SCENE_WIDTH / 2;
 const centerY = SCENE_HEIGHT / 2;
 
@@ -19,8 +23,8 @@ const TEXT_TOP = 85;
 const TEXT_LEFT_1 = 430;
 const TEXT_LEFT_2 = 1030;
 
-const generateServeCoordinates = () => {
-  const xDirection = Math.sign(Math.random() - 0.5);
+const generateServeCoordinates = (preferredXDirection) => {
+  const xDirection = preferredXDirection ? preferredXDirection : Math.sign(Math.random() - 0.5);
   const yDirection = Math.sign(Math.random() - 0.5);
 
   const xVelocity = BALL_START_VELOCITY[0] * xDirection;

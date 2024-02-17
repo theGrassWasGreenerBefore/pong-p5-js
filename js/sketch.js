@@ -2,13 +2,13 @@ function setup() {
   Rectangle.prototype.createVector = createVector;
 
   players.push(
-    new Character(
+    new Paddle(
       [PLAYER_X_OFFSET, centerY],
       PLAYER_SIZE,
       "player1",
       CONTROL_OPTIONS.WS,
     ),
-    new Character(
+    new Paddle(
       [SCENE_WIDTH - PLAYER_X_OFFSET, centerY],
       PLAYER_SIZE,
       "player2",
@@ -45,7 +45,8 @@ function draw() {
   noStroke();
   fill(255);
 
-  rect(...ball.mount());
+  ball.drawIfShown(rect);
+
   players.forEach(player => {
     rect(...player.mount());
     player.hitFrameTest();

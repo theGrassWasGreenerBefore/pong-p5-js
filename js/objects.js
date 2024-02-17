@@ -8,11 +8,16 @@ class Rectangle {
   constructor(
     position = [0, 0],
     sizeCaret = [0, 0],
+    velocity = [0, 0]
   ) {
+    this.init(position, sizeCaret, velocity);
+  };
+
+  init(position, sizeCaret, velocity) {
     this.position = this.createVector(...position);
     this.size = { width: sizeCaret[0], height: sizeCaret[1] };
-    this.velocity = this.createVector(0, 0);
-  };
+    this.velocity = this.createVector(...velocity);
+  }
 
   mount() {
     this.position.add(this.velocity);
@@ -25,7 +30,7 @@ class Rectangle {
   }
 };
 
-class Character extends Rectangle {
+class Paddle extends Rectangle {
   constructor(
     position,
     sizeCaret,
@@ -74,8 +79,10 @@ class Ball extends Rectangle {
     sizeCaret,
     velocity = [0, 0],
   ) {
-    super(position, sizeCaret);
-    this.velocity = this.createVector(...velocity);
+    super(position, sizeCaret, velocity);
+    this.isShown = true;
+    this.pauseValue = PAUSE_INITIAL_VALUE;
+    this.preferredXDirection = 0;
   }
   ballHit(otherCharacter) {
     const {
@@ -112,22 +119,42 @@ class Ball extends Rectangle {
   }
 
   hitFrameTest() {
+    const { isShown } = this;
     const {
       position: { x, y },
       size: { width, height },
     } = this;
 
-    if (this.position.x < width / 2) {
-      // TODO: score Left
+    if (isShown && (this.position.x < width / 2)) {
+      score[1] += 1;
+      this.isShown = false;
+      this.preferredXDirection = -1;
     }
-    if (this.position.x > SCENE_WIDTH - width / 2) {
-      // TODO: score Right
+    if (isShown && (this.position.x > SCENE_WIDTH - width / 2)) {
+      score[0] += 1;
+      this.isShown = false;
+      this.preferredXDirection = 1;
     }
     if ((this.position.y < height / 2) && (this.velocity.y < 0)) {
       this.velocity.y *= -1;
     }
     if ((this.position.y > SCENE_HEIGHT - height / 2) && (this.velocity.y > 0)) {
       this.velocity.y *= -1;
+    }
+  }
+
+  drawIfShown(rect) {
+    if (this.isShown) {
+      rect(...this.mount());
+    } else {
+      this.pauseValue -= 1;
+      if (this.pauseValue <= 0) {
+        this.isShown = true;
+        this.pauseValue = PAUSE_INITIAL_VALUE;
+        this.init(
+          ...generateServeCoordinates(this.preferredXDirection)
+        );
+      }
     }
   }
 };
