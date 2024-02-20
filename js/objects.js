@@ -82,7 +82,6 @@ class Ball extends Rectangle {
     super(position, sizeCaret, velocity);
     this.isShown = true;
     this.pauseValue = PAUSE_INITIAL_VALUE;
-    this.preferredXDirection = 0;
   }
   ballHit(otherCharacter) {
     const {
@@ -99,23 +98,25 @@ class Ball extends Rectangle {
   }
 
   hitTest(characters) {
-    characters.forEach(otherCharacter => {
-      const {
-        position: { x: x1, y: y1 },
-        size: { width: width1, height: height1 },
-      } = this;
-      const {
-        position: { x: x2, y: y2 },
-        size: { width: width2, height: height2 },
-      } = otherCharacter;
+    if (this.isShown) {
+      characters.forEach(otherCharacter => {
+        const {
+          position: { x: x1, y: y1 },
+          size: { width: width1, height: height1 },
+        } = this;
+        const {
+          position: { x: x2, y: y2 },
+          size: { width: width2, height: height2 },
+        } = otherCharacter;
 
-      const isOverlapX = getAxisOverlap(x1, x2, width1, width2);
-      const isOverlapY = getAxisOverlap(y1, y2, height1, height2);
+        const isOverlapX = getAxisOverlap(x1, x2, width1, width2);
+        const isOverlapY = getAxisOverlap(y1, y2, height1, height2);
 
-      if (isOverlapX && isOverlapY) {
-        this.ballHit(otherCharacter);
-      }
-    });
+        if (isOverlapX && isOverlapY) {
+          this.ballHit(otherCharacter);
+        }
+      });
+    }
   }
 
   hitFrameTest() {
@@ -125,20 +126,20 @@ class Ball extends Rectangle {
       size: { width, height },
     } = this;
 
-    if (isShown && (this.position.x < width / 2)) {
+    if (isShown && (x < width / 2)) {
       score[1] += 1;
       this.isShown = false;
-      this.preferredXDirection = -1;
+      this.setBeforeServe(-1);
     }
-    if (isShown && (this.position.x > SCENE_WIDTH - width / 2)) {
+    if (isShown && (x > SCENE_WIDTH - width / 2)) {
       score[0] += 1;
       this.isShown = false;
-      this.preferredXDirection = 1;
+      this.setBeforeServe(1);
     }
-    if ((this.position.y < height / 2) && (this.velocity.y < 0)) {
+    if ((y < height / 2) && (y < 0)) {
       this.velocity.y *= -1;
     }
-    if ((this.position.y > SCENE_HEIGHT - height / 2) && (this.velocity.y > 0)) {
+    if ((y > SCENE_HEIGHT - height / 2) && (y > 0)) {
       this.velocity.y *= -1;
     }
   }
@@ -147,14 +148,35 @@ class Ball extends Rectangle {
     if (this.isShown) {
       rect(...this.mount());
     } else {
+      const {
+        position: { x },
+        velocity: { x: velocityX },
+      } = this;
+
+      this.position.add(this.velocity);
       this.pauseValue -= 1;
+      if (
+        velocityX > 0 && (x > SCENE_WIDTH / 2) ||
+        velocityX < 0 && (x < SCENE_WIDTH / 2)
+      ) {
+        this.isShown = true;
+        this.pauseValue = PAUSE_INITIAL_VALUE;
+      }
       if (this.pauseValue <= 0) {
         this.isShown = true;
         this.pauseValue = PAUSE_INITIAL_VALUE;
         this.init(
-          ...generateServeCoordinates(this.preferredXDirection)
+          ...generateServeCoordinates(Math.sign(this.velocity.x))
         );
       }
+    }
+  }
+
+  setBeforeServe(preferredXDirection) {
+    if (preferredXDirection > 0) {
+      this.position.x = this.size.width / 2 + 1;
+    } else {
+      this.position.x = SCENE_WIDTH - this.size.width / 2 - 1;
     }
   }
 };
