@@ -83,40 +83,38 @@ class Ball extends Rectangle {
     this.isShown = true;
     this.pauseValue = PAUSE_INITIAL_VALUE;
   }
-  ballHit(otherCharacter) {
+  ballHit(paddle) {
     const {
-      position: { x: x1, y: y1 },
+      position: { x: ballX, y: ballY },
       velocity: ballVelocity,
     } = this;
     const {
-      position: { x: x2, y: y2 },
+      position: { x: paddleX, y: paddleY },
       size: { height }
-    } = otherCharacter;
+    } = paddle;
 
-    const hitDirection = this.createVector(x1 - x2, y1 - y2);
+    const hitDirection = this.createVector(ballX - paddleX, ballY - paddleY);
     this.velocity = hitDirection.normalize().mult(ballVelocity.mag());
   }
 
-  hitTest(characters) {
-    if (this.isShown) {
-      characters.forEach(otherCharacter => {
-        const {
-          position: { x: x1, y: y1 },
-          size: { width: width1, height: height1 },
-        } = this;
-        const {
-          position: { x: x2, y: y2 },
-          size: { width: width2, height: height2 },
-        } = otherCharacter;
+  hitTest(paddles) {
+    paddles.forEach(paddle => {
+      const {
+        position: { x: ballX, y: ballY },
+        size: { width: ballWidth, height: ballHeight },
+      } = this;
+      const {
+        position: { x: paddleX, y: paddleY },
+        size: { width: paddleWidth, height: paddleHeight },
+      } = paddle;
 
-        const isOverlapX = getAxisOverlap(x1, x2, width1, width2);
-        const isOverlapY = getAxisOverlap(y1, y2, height1, height2);
+      const isOverlapX = getAxisOverlap(ballX, paddleX, ballWidth, paddleWidth);
+      const isOverlapY = getAxisOverlap(ballY, paddleY, ballHeight, paddleHeight);
 
-        if (isOverlapX && isOverlapY) {
-          this.ballHit(otherCharacter);
-        }
-      });
-    }
+      if (isOverlapX && isOverlapY) {
+        this.ballHit(paddle);
+      }
+    });
   }
 
   hitFrameTest() {

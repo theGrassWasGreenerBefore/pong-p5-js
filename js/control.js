@@ -17,8 +17,10 @@ const calcVerticalShift = (playerName) => {
 const keyStateChange = (setMethod) => {
   players.forEach(player => {
     const keys = keySets.find(({ id }) => id === player.controlOption) ?.keys ?? {};
-    if (Object.keys(keys).includes(key)) {
-      controlsPressed[setMethod](`${player.name}|${keys[key]}`);
+    const keyCodeString = String(keyCode);
+
+    if (Object.keys(keys).includes(keyCodeString)) {
+      controlsPressed[setMethod](`${player.name}|${keys[keyCodeString]}`);
       player.verticalShift(calcVerticalShift(player.name));
     }
   });

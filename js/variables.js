@@ -13,8 +13,8 @@ const MOUSE_WHEEL_SHIFT = 4;
 const BALL_SHIFT = 6;
 
 const NET_DASH = [15, 25];
-const PLAYER_X_OFFSET = 120;
-const PLAYER_SIZE = [14, 60];
+const PADDLE_X_OFFSET = 120;
+const PADDLE_SIZE = [14, 60];
 const BALL_SIZE = [18, 18];
 const BALL_START_VELOCITY = [5, 10];
 
@@ -53,15 +53,15 @@ const keySets = [
   {
     id: CONTROL_OPTIONS.WS,
     keys: {
-      w: CONTROL_KEYS.UP,
-      s: CONTROL_KEYS.DOWN,
+      87: CONTROL_KEYS.UP, // W
+      83: CONTROL_KEYS.DOWN, // S
     }
   },
   {
     id: CONTROL_OPTIONS.ARROW_KEYS,
     keys: {
-      ArrowUp: CONTROL_KEYS.UP,
-      ArrowDown: CONTROL_KEYS.DOWN,
+      38: CONTROL_KEYS.UP, // ARROW UP
+      40: CONTROL_KEYS.DOWN, // ARROW DOWN
     }
   },
 ];

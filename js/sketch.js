@@ -3,14 +3,14 @@ function setup() {
 
   players.push(
     new Paddle(
-      [PLAYER_X_OFFSET, centerY],
-      PLAYER_SIZE,
+      [PADDLE_X_OFFSET, centerY],
+      PADDLE_SIZE,
       "player1",
       CONTROL_OPTIONS.WS,
     ),
     new Paddle(
-      [SCENE_WIDTH - PLAYER_X_OFFSET, centerY],
-      PLAYER_SIZE,
+      [SCENE_WIDTH - PADDLE_X_OFFSET, centerY],
+      PADDLE_SIZE,
       "player2",
       CONTROL_OPTIONS.MOUSE_WHEEL,
     ),
@@ -52,6 +52,8 @@ function draw() {
     player.hitFrameTest();
   });
 
-  ball.hitTest(players);
+  if (ball.isShown) {
+    ball.hitTest(players);
+  }
   ball.hitFrameTest();
 }
