@@ -24,6 +24,7 @@ function setup() {
 }
 
 function draw() {
+  frameRate(FRAME_RATE);
   rectMode(CENTER);
   background(0);
 

@@ -1,22 +1,21 @@
 const SCENE_WIDTH = 1200;
 const SCENE_HEIGHT = 900;
 
-const FRAME_RATE = 60;
+const FRAME_RATE = 30;
 const SECONDS_PAUSE = 2;
 const PAUSE_INITIAL_VALUE = FRAME_RATE * SECONDS_PAUSE;
 
 const centerX = SCENE_WIDTH / 2;
 const centerY = SCENE_HEIGHT / 2;
 
-const KEYBOARD_SHIFT = 10;
-const MOUSE_WHEEL_SHIFT = 4;
-const BALL_SHIFT = 6;
+const KEYBOARD_SHIFT = 20;
+const MOUSE_WHEEL_SHIFT = 3;
 
 const NET_DASH = [15, 25];
 const PADDLE_X_OFFSET = 120;
 const PADDLE_SIZE = [14, 60];
 const BALL_SIZE = [18, 18];
-const BALL_START_VELOCITY = [5, 10];
+const BALL_START_VELOCITY = [10, 20];
 
 const TEXT_SIZE = 130;
 const TEXT_TOP = 85;
