@@ -83,18 +83,23 @@ class Ball extends Rectangle {
     this.isShown = true;
     this.pauseValue = PAUSE_INITIAL_VALUE;
   }
-  ballHit(paddle) {
+
+  hitCallback(paddle) {
     const {
       position: { x: ballX, y: ballY },
       velocity: ballVelocity,
     } = this;
     const {
       position: { x: paddleX, y: paddleY },
-      size: { height }
+      size: { height },
+      velocity: paddleVelocity,
     } = paddle;
 
-    const hitDirection = this.createVector(ballX - paddleX, ballY - paddleY);
+    const hitDirection = this.createVector(ballX - paddleX, ballY - paddleY).add(paddleVelocity);
     this.velocity = hitDirection.normalize().mult(ballVelocity.mag());
+    // console.log("hitDirection:", hitDirection.heading());
+    // Math.tan(7 / 4)
+    // https://p5js.org/reference/#/p5.Vector/heading
   }
 
   hitTest(paddles) {
@@ -112,7 +117,7 @@ class Ball extends Rectangle {
       const isOverlapY = getAxisOverlap(ballY, paddleY, ballHeight, paddleHeight);
 
       if (isOverlapX && isOverlapY) {
-        this.ballHit(paddle);
+        this.hitCallback(paddle);
       }
     });
   }

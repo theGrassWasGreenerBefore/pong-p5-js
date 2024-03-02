@@ -57,4 +57,7 @@ function draw() {
     ball.hitTest(players);
   }
   ball.hitFrameTest();
+
+  // ball increment due to vectors of ball and paddles
+  // increment paddles
 }
