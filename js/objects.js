@@ -4,6 +4,8 @@ const getAxisOverlap = (coord1, coord2, size1, size2) => {
   return currentDistance < minimumSafeDistance;
 };
 
+const INTERPOLATION_FREQUENCY = 4;
+
 class Rectangle {
   constructor(
     position = [0, 0],
@@ -19,12 +21,15 @@ class Rectangle {
     this.velocity = this.createVector(...velocity);
   }
 
-  mount() {
+  shiftByVelocity() {
     this.position.add(this.velocity);
+  }
 
-    const { position, size } = this;
-    const { x, y } = position;
-    const { width, height } = size;
+  mount() {
+    const {
+      position: { x, y },
+      size: { width, height }
+    } = this;
 
     return [x, y, width, height];
   }
@@ -84,6 +89,35 @@ class Ball extends Rectangle {
     this.pauseValue = PAUSE_INITIAL_VALUE;
   }
 
+  interpolateByVelocity(paddles) {
+    const { position, size, velocity: { x, y } } = this;
+
+    for (let part = 0; part < INTERPOLATION_FREQUENCY; part++) {
+      const hypotheticVelocity = this.createVector(
+        x * (part + 1) / INTERPOLATION_FREQUENCY,
+        y * (part + 1) / INTERPOLATION_FREQUENCY
+      );
+      const hypotheticBall = {
+        position: position.copy().add(hypotheticVelocity),
+        size: { ...size },
+      }
+
+      if (paddles.map(paddle => isThereOverlap(hypotheticBall, paddle)).some(isOverlap => isOverlap)) {
+        return hypotheticVelocity;
+      }
+    }
+
+    return this.velocity;
+  }
+
+  shiftByVelocity(paddles) {
+    if (this.isShown) {
+      this.position.add(this.interpolateByVelocity(paddles));
+    } else {
+      this.position.add(this.velocity);
+    }
+  }
+
   hitCallback(paddle) {
     const {
       position: { x: ballX, y: ballY },
@@ -100,23 +134,13 @@ class Ball extends Rectangle {
     // console.log("hitDirection:", hitDirection.heading());
     // Math.tan(7 / 4)
     // https://p5js.org/reference/#/p5.Vector/heading
+
+    // exclude zero on the way
   }
 
   hitTest(paddles) {
     paddles.forEach(paddle => {
-      const {
-        position: { x: ballX, y: ballY },
-        size: { width: ballWidth, height: ballHeight },
-      } = this;
-      const {
-        position: { x: paddleX, y: paddleY },
-        size: { width: paddleWidth, height: paddleHeight },
-      } = paddle;
-
-      const isOverlapX = getAxisOverlap(ballX, paddleX, ballWidth, paddleWidth);
-      const isOverlapY = getAxisOverlap(ballY, paddleY, ballHeight, paddleHeight);
-
-      if (isOverlapX && isOverlapY) {
+      if (isThereOverlap(this, paddle)) {
         this.hitCallback(paddle);
       }
     });
@@ -156,7 +180,6 @@ class Ball extends Rectangle {
         velocity: { x: velocityX },
       } = this;
 
-      this.position.add(this.velocity);
       this.pauseValue -= 1;
       if (
         velocityX > 0 && (x > SCENE_WIDTH / 2) ||

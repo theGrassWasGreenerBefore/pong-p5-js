@@ -46,12 +46,14 @@ function draw() {
   noStroke();
   fill(255);
 
-  ball.drawIfShown(rect);
-
   players.forEach(player => {
+    player.shiftByVelocity();
     rect(...player.mount());
     player.hitFrameTest();
   });
+
+  ball.shiftByVelocity(players);
+  ball.drawIfShown(rect);
 
   if (ball.isShown) {
     ball.hitTest(players);

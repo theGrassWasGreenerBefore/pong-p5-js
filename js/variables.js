@@ -37,6 +37,22 @@ const generateServeCoordinates = (preferredXDirection) => {
   ];
 }
 
+const isThereOverlap = (ball, paddle) => {
+  const {
+    position: { x: ballX, y: ballY },
+    size: { width: ballWidth, height: ballHeight },
+  } = ball;
+  const {
+    position: { x: paddleX, y: paddleY },
+    size: { width: paddleWidth, height: paddleHeight },
+  } = paddle;
+
+  const isOverlapX = getAxisOverlap(ballX, paddleX, ballWidth, paddleWidth);
+  const isOverlapY = getAxisOverlap(ballY, paddleY, ballHeight, paddleHeight);
+
+  return isOverlapX && isOverlapY;
+};
+
 const CONTROL_OPTIONS = {
   WS: "W+S",
   ARROW_KEYS: "Arrows UP+DOWN",
