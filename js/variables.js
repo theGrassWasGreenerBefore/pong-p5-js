@@ -17,6 +17,8 @@ const PADDLE_SIZE = [14, 60];
 const BALL_SIZE = [18, 18];
 const BALL_START_VELOCITY = [10, 20];
 
+const ANGLE_LIMIT = 10;
+
 const TEXT_SIZE = 130;
 const TEXT_TOP = 85;
 const TEXT_LEFT_1 = 430;

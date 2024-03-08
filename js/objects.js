@@ -130,12 +130,19 @@ class Ball extends Rectangle {
     } = paddle;
 
     const hitDirection = this.createVector(ballX - paddleX, ballY - paddleY).add(paddleVelocity);
-    this.velocity = hitDirection.normalize().mult(ballVelocity.mag());
-    // console.log("hitDirection:", hitDirection.heading());
-    // Math.tan(7 / 4)
-    // https://p5js.org/reference/#/p5.Vector/heading
 
-    // exclude zero on the way
+    const angle = Math.round(hitDirection.heading() / Math.PI * 180);
+    const angleSign = Math.sign(angle);
+    if ((Math.abs(angle) >= 90) && (Math.abs(angle) < 90 + ANGLE_LIMIT)) {
+      hitDirection.x = Math.cos((90 + ANGLE_LIMIT) * Math.PI / 180);
+      hitDirection.y = Math.sin((90 + ANGLE_LIMIT) * Math.PI / 180);
+    }
+    if ((Math.abs(angle) < 90) && (Math.abs(angle) > 90 - ANGLE_LIMIT)) {
+      hitDirection.x = Math.cos((90 - ANGLE_LIMIT) * Math.PI / 180) * angleSign;
+      hitDirection.y = Math.sin((90 - ANGLE_LIMIT) * Math.PI / 180) * angleSign;
+    }
+
+    this.velocity = hitDirection.normalize().mult(ballVelocity.mag());
   }
 
   hitTest(paddles) {
