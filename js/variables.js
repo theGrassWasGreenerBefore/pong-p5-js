@@ -31,7 +31,7 @@ const generateServeCoordinates = (preferredXDirection) => {
   const xVelocity = BALL_START_VELOCITY[0] * xDirection;
   const yVelocity = BALL_START_VELOCITY[1] * yDirection;
 
-  const yPosition = Math.random() * (SCENE_HEIGHT - BALL_SIZE[1]) - BALL_SIZE[1];
+  const yPosition = Math.random() * (SCENE_HEIGHT - BALL_SIZE[1]) + BALL_SIZE[1];
   return [
     [centerX, yPosition],
     BALL_SIZE,
